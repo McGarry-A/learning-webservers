@@ -16,11 +16,17 @@ exports.hashPassword = async (req, res, next) => {
 
 exports.comparePasswords = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const username = req.body.username
+    const password = req.body.password
+
+    console.log(`${username}, ${password}`)
+    const user = await User.findOne({ username: req.body.username });
+    console.log(user)
     const comparisonBool = await bcrypt.compare(
       req.body.password,
       user.password
-    );
+  );
+     console.log(comparisonBool)
     if (comparisonBool) {
       req.user = user;
       next();
