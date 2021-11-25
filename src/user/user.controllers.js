@@ -14,7 +14,8 @@ exports.addUser = async (req,res) => {
 
 exports.find = async (req,res) => {
     try {
-        const data = await User.find(req.body)
+        const data = await User.find(req.params)
+        console.log(data)
         res.status(200).send(data)
     } catch (err) {
         console.log(err)
@@ -24,8 +25,10 @@ exports.find = async (req,res) => {
 
 exports.deleteItem = async (req, res) => {
     try {
-        const userToDelete = await User.deleteOne(req.body)
-        res.status(200).send(`${userToDelete} has been deleted.`)
+        const userToDelete = await User.deleteOne({username: req.body.username})
+        res.status(200).redirect("http://localhost:3000")
+        
+        console.log("User Deleted")
     } catch (err){
         console.log(err)
         res.status(500).send({message: "something went wrong, check the server logs"})
